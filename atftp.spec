@@ -5,7 +5,7 @@ Summary(pl):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr):	Ýlkel dosya aktarým protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
 Version:	0.7
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Networking
 Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
@@ -56,6 +56,7 @@ Requires(pre):	/usr/sbin/useradd
 Requires(postun):	/usr/sbin/userdel
 Provides:	tftpdaemon
 Provides:	user(tftp)
+Obsoletes:	inetutils-tftpd
 Obsoletes:	tftpd
 Obsoletes:	tftpd-hpa
 Obsoletes:	tftp-server
