@@ -15,6 +15,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libwrap-devel
 BuildRequires:	libtool
+BuildRequires:	rpmbuild(macros) >= 1.159
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,6 +55,7 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/useradd
 Requires(postun):	/usr/sbin/userdel
 Provides:	tftpdaemon
+Provides:	user(tftp)
 Obsoletes:	tftpd
 Obsoletes:	tftpd-hpa
 Obsoletes:	tftp-server
@@ -133,8 +135,7 @@ if [ "$1" = "0" -a -f /var/lock/subsys/rc-inetd ]; then
 	/etc/rc.d/init.d/rc-inetd reload
 fi
 if [ "$1" = "0" ]; then
-	echo "Removing user tftp."
-	/usr/sbin/userdel tftp
+	%userremove tftp
 fi
 
 %files
