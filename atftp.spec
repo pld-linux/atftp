@@ -4,15 +4,17 @@ Summary(fr):	Client pour le « trivial file transfer protocol » (tftp)
 Summary(pl):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr):	Ýlkel dosya aktarým protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
-Version:	0.6.1.1
+Version:	0.6.2
 Release:	1
 License:	GPL
 Group:		Applications/Networking
-Source0:	ftp://ftp.debian.org/debian/pool/main/a/atftp/%{name}_%{version}.tar.gz
-# Source0-md5:	37cfd0e85e401980aaab17da49adb3b9
+Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
+# Source0-md5:	b3b8d4b7e558046adfcaef180ae77c4f
 Source1:	atftpd.inetd
+BuildRequires:	libwrap-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Obsoletes:	tftp-hpa tftp
+Obsoletes:	tftp
+Obsoletes:	tftp-hpa
 
 %description
 The Trivial File Transfer Protocol (TFTP) is normally used only for
