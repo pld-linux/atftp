@@ -10,7 +10,7 @@ License:	GPL
 Group:		Applications/Networking
 # Source0-md5:	37cfd0e85e401980aaab17da49adb3b9
 Source0:	ftp://ftp.debian.org/debian/pool/main/a/%{name}_%{version}.tar.gz
-Source1:	tftpd.inetd
+Source1:	atftpd.inetd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	tftp-hpa tftp
 
