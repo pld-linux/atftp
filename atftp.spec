@@ -85,7 +85,7 @@ instalowany tylko wtedy, kiedy zachodzi taka konieczno¶æ poniewa¿
 nale¿y on do aplikacji o niskim poziomie bezpieczeñstwa.
 
 %prep
-%setup  -q
+%setup -q
 
 %build
 rm -f missing
@@ -98,7 +98,7 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{%{_bindir},%{_sbindir},/etc/sysconfig/rc-inetd} \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},/etc/sysconfig/rc-inetd} \
 	$RPM_BUILD_ROOT{%{_mandir}/man{1,8},/var/lib/tftp}
 
 install atftpd $RPM_BUILD_ROOT%{_sbindir}
