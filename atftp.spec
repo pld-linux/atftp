@@ -4,12 +4,12 @@ Summary(fr):	Client pour le « trivial file transfer protocol » (tftp)
 Summary(pl):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr):	Ýlkel dosya aktarým protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
-Version:	0.6.2
+Version:	0.7
 Release:	1
 License:	GPL
 Group:		Applications/Networking
 Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
-# Source0-md5:	b3b8d4b7e558046adfcaef180ae77c4f
+# Source0-md5:	3b27365772d918050b2251d98a9c7c82
 Source1:	atftpd.inetd
 BuildRequires:	autoconf
 BuildRequires:	automake
