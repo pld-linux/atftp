@@ -11,7 +11,10 @@ Group:		Applications/Networking
 Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
 # Source0-md5:	b3b8d4b7e558046adfcaef180ae77c4f
 Source1:	atftpd.inetd
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	libwrap-devel
+BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	tftp
 Obsoletes:	tftp-hpa
@@ -85,8 +88,12 @@ nale¿y on do aplikacji o niskim poziomie bezpieczeñstwa.
 %setup  -q
 
 %build
-
-./configure
+rm -f missing
+%{__libtoolize}
+%{__aclocal}
+%{__automake}
+%{__autoconf}
+%configure
 %{__make}
 
 %install
