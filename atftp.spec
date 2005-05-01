@@ -15,7 +15,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libwrap-devel
 BuildRequires:	libtool
-BuildRequires:	rpmbuild(macros) >= 1.159
+BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -114,15 +114,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/tftpd
 rm -rf $RPM_BUILD_ROOT
 
 %pre -n atftpd
-if [ -n "`id -u tftp 2>/dev/null`" ]; then
-	if [ "`id -u tftp`" != "15" ]; then
-		echo "Error: user tftp doesn't have uid=15. Correct this before installing tftpd." 1>&2
-		exit 1
-	fi
-else
-	echo "Adding user tftp UID=15."
-	/usr/sbin/useradd -u 15 -r -d /var/lib/tftp -s /bin/false -c "TFTP User" -g ftp tftp 1>&2
-fi
+%useradd -u 15 -r -d /var/lib/tftp -s /bin/false -c "TFTP User" -g ftp tftp
 
 %post -n atftpd
 if [ -f /var/lock/subsys/rc-inetd ]; then
