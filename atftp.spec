@@ -10,7 +10,7 @@ License:	GPL
 Group:		Applications/Networking
 Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
 # Source0-md5:	3b27365772d918050b2251d98a9c7c82
-Source1:	atftpd.inetd
+Source1:	%{name}d.inetd
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libwrap-devel
@@ -140,6 +140,6 @@ fi
 %defattr(644,root,root,755)
 %doc README FAQ
 %attr(755,root,root) %{_sbindir}/*
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/rc-inetd/tftpd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/tftpd
 %attr(750,tftp,root) %dir /var/lib/tftp
 %{_mandir}/man8/*
