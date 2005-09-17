@@ -5,7 +5,7 @@ Summary(pl):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr):	Ýlkel dosya aktarým protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
 Version:	0.7
-Release:	5
+Release:	6
 License:	GPL
 Group:		Applications/Networking
 Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
@@ -90,7 +90,8 @@ nale¿y on do aplikacji o niskim poziomie bezpieczeñstwa.
 %setup -q
 
 %build
-rm -f missing
+sed -i -e 's#argz.h##g' Makefile*
+rm -f missing argz.h
 %{__libtoolize}
 %{__aclocal}
 %{__automake}
