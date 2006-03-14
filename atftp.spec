@@ -13,9 +13,9 @@ Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
 Source1:	%{name}d.inetd
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libwrap-devel
 BuildRequires:	libtool
-BuildRequires:	rpmbuild(macros) >= 1.202
+BuildRequires:	libwrap-devel
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -50,16 +50,16 @@ Summary(fr):	Démon pour le « trivial file transfer protocol » (tftp)
 Summary(pl):	Serwer tftp (trivial file transfer protocol)
 Summary(tr):	Ýlkel dosya aktarým protokolu (TFTP) için sunucu ve istemci
 Group:		Networking/Daemons
-PreReq:		rc-inetd >= 0.8.1
+Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/useradd
-Requires(postun):	/usr/sbin/userdel
+Requires:	rc-inetd >= 0.8.1
 Provides:	tftpdaemon
 Provides:	user(tftp)
 Obsoletes:	inetutils-tftpd
+Obsoletes:	tftp-server
 Obsoletes:	tftpd
 Obsoletes:	tftpd-hpa
-Obsoletes:	tftp-server
 Obsoletes:	utftpd
 
 %description -n atftpd
@@ -118,17 +118,11 @@ rm -rf $RPM_BUILD_ROOT
 %useradd -u 15 -r -d /var/lib/tftp -s /bin/false -c "TFTP User" -g ftp tftp
 
 %post -n atftpd
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server." 1>&2
-fi
+%service -q rc-inetd reload
 
 %postun -n atftpd
-if [ "$1" = "0" -a -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload
-fi
 if [ "$1" = "0" ]; then
+	%service -q rc-inetd reload
 	%userremove tftp
 fi
 
