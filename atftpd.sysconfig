@@ -1,0 +1,10 @@
+# atftpd startup configuration file
+
+# Try to define nice-level for running rsyncd
+SERVICE_RUN_NICE_LEVEL="+5"
+
+# Root directory for TFTP server
+ATFTPD_DIRECTORY="/var/lib/tftp"
+
+# Additional options to atftpd (see: man atftpd)
+#ATFTPD_OPTIONS="--bind-address 192.168.0.1"
