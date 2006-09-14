@@ -1,6 +1,6 @@
 # atftpd startup configuration file
 
-# Try to define nice-level for running rsyncd
+# Try to define nice-level for running atftpd
 SERVICE_RUN_NICE_LEVEL="+5"
 
 # Root directory for TFTP server
