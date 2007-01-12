@@ -1,0 +1,18 @@
+diff -urN atftp-0.7.org/configure.ac atftp-0.7/configure.ac
+--- atftp-0.7.org/configure.ac	2004-03-16 02:51:40.000000000 +0100
++++ atftp-0.7/configure.ac	2007-01-12 17:28:51.708908250 +0100
+@@ -107,11 +107,12 @@
+ if test x$libreadline = xtrue; then
+    dnl Debian's readline is already linked to ncurses. It is not the case for
+    dnl all other systems.
+-   AC_CHECK_LIB(readline, tgetent, LIBTERMCAP="",
++   AC_CHECK_LIB(tinfo, tgetent, LIBTERMCAP=-ltinfo,
++     AC_CHECK_LIB(readline, tgetent, LIBTERMCAP="",
+ 	AC_CHECK_LIB(ncurses, tgetent, LIBTERMCAP=-lncurses,
+ 		AC_CHECK_LIB(curses, tgetent, LIBTERMCAP=-lcurses,
+ 			AC_CHECK_LIB(termcap, tgetent, LIBTERMCAP=-ltermcap,
+-			AC_MSG_RESULT(no)))))
++			AC_MSG_RESULT(no))))))
+    AC_SUBST(LIBTERMCAP)
+ 
+    dnl Check for readline

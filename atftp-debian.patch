@@ -1,0 +1,133 @@
+--- atftp-0.7.dfsg.orig/tftpd.c
++++ atftp-0.7.dfsg/tftpd.c
+@@ -157,6 +157,7 @@
+      struct servent *serv;
+      struct passwd *user;
+      struct group *group;
++     pthread_t tid;
+ 
+ #ifdef HAVE_MTFTP
+      pthread_t mtftp_thread;
+@@ -300,11 +301,13 @@
+           open_logger("atftpd", log_file, logging_level);
+      }
+ 
++#ifdef SOL_IP
+      /* We need to retieve some information from incomming packets */
+      if (setsockopt(0, SOL_IP, IP_PKTINFO, &one, sizeof(one)) != 0)
+      {
+           logger(LOG_WARNING, "Failed to set socket option: %s", strerror(errno));
+      }
++#endif
+ 
+      /* save main thread ID for proper signal handling */
+      main_thread_id = pthread_self();
+@@ -466,7 +469,7 @@
+                new->client_info->next = NULL;
+                
+                /* Start a new server thread. */
+-               if (pthread_create(&new->tid, NULL, tftpd_receive_request,
++               if (pthread_create(&tid, NULL, tftpd_receive_request,
+                                   (void *)new) != 0)
+                {
+                     logger(LOG_ERR, "Failed to start new thread");
+@@ -567,7 +570,8 @@
+ 
+      /* Detach ourself. That way the main thread does not have to
+       * wait for us with pthread_join. */
+-     pthread_detach(pthread_self());
++     data->tid = pthread_self();
++     pthread_detach(data->tid);
+ 
+      /* Read the first packet from stdin. */
+      data_size = data->data_buffer_size;     
+@@ -732,8 +736,8 @@
+      tftpd_clientlist_free(data);
+ 
+      /* free the thread structure */
+-     free(data);
+-     
++     free(data);    
++
+      logger(LOG_INFO, "Server thread exiting");
+      pthread_exit(NULL);
+ }
+--- atftp-0.7.dfsg.orig/argz.h
++++ atftp-0.7.dfsg/argz.h
+@@ -180,7 +180,7 @@
+ #ifdef __USE_EXTERN_INLINES
+ extern inline char *
+ __argz_next (__const char *__argz, size_t __argz_len,
+-	     __const char *__entry) __THROW
++	     __const char *__entry)
+ {
+   if (__entry)
+     {
+@@ -194,7 +194,7 @@
+ }
+ extern inline char *
+ argz_next (__const char *__argz, size_t __argz_len,
+-	   __const char *__entry) __THROW
++	   __const char *__entry)
+ {
+   return __argz_next (__argz, __argz_len, __entry);
+ }
+--- atftp-0.7.dfsg.orig/Makefile.am
++++ atftp-0.7.dfsg/Makefile.am
+@@ -32,7 +32,7 @@
+ 		   argz.c tftp_mtftp.c
+ 
+ sbin_PROGRAMS    = atftpd
+-atftpd_LDADD     = $(LIBPTHREAD) $(LIBWRAP) $(LIBPCRE)
++atftpd_LDADD     = $(LIBWRAP) $(LIBPTHREAD) $(LIBPCRE)
+ atftpd_SOURCES   = tftpd.c logger.c options.c stats.c tftp_io.c tftp_def.c \
+                    tftpd_file.c tftpd_list.c tftpd_mcast.c argz.c tftpd_pcre.c \
+ 		   tftpd_mtftp.c
+--- atftp-0.7.dfsg.orig/tftp_io.c
++++ atftp-0.7.dfsg/tftp_io.c
+@@ -284,12 +284,14 @@
+                     cmsg != NULL && cmsg->cmsg_len >= sizeof(*cmsg);
+                     cmsg = CMSG_NXTHDR(&msg, cmsg))
+                {
++#ifdef SOL_IP
+                     if (cmsg->cmsg_level == SOL_IP
+                         && cmsg->cmsg_type == IP_PKTINFO)
+                     {
+                          pktinfo = (struct in_pktinfo *)CMSG_DATA(cmsg);
+                          sa_to->sin_addr = pktinfo->ipi_addr;
+                     }
++#endif                    
+                     break;
+                }
+           }
+--- atftp-0.7.dfsg.orig/tftp.c
++++ atftp-0.7.dfsg/tftp.c
+@@ -354,7 +354,7 @@
+ void make_arg(char *string, int *argc, char ***argv)
+ {
+      static char *tmp = NULL;
+-     int argz_len;
++     size_t argz_len;
+ 
+      /* split the string to an argz vector */
+      if (argz_create_sep(string, ' ', &tmp, &argz_len) != 0)
+@@ -731,7 +731,7 @@
+      fsync(data.sockfd);
+      close(data.sockfd);
+ 
+-     return OK;
++     return tftp_result;
+ }
+ 
+ #ifdef HAVE_MTFTP
+--- atftp-0.7.dfsg.orig/tftp_file.c
++++ atftp-0.7.dfsg/tftp_file.c
+@@ -59,7 +59,7 @@
+      unsigned int next_word;
+ 
+      /* initial stuff */
+-     next_hole = prev_hole + 1;
++     next_hole = 0; /*prev_hole + 1;*/
+      next_word_no = next_hole / 32;
+      next_bit_no  = next_hole % 32;
+      next_word = bitmap[next_word_no];
