@@ -5,7 +5,7 @@ Summary(pl):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr):	Ýlkel dosya aktarým protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
 Version:	0.7
-Release:	9
+Release:	10
 License:	GPL
 Group:		Applications/Networking
 Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
@@ -13,6 +13,9 @@ Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
 Source1:	%{name}d.inetd
 Source2:	%{name}d.init
 Source3:	%{name}d.sysconfig
+Patch0:		%{name}-debian.patch
+Patch1:		%{name}-tinfo.patch
+Patch2:		%{name}-clk.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
@@ -124,6 +127,9 @@ standalone.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 sed -i -e 's#argz.h##g' Makefile*
