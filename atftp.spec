@@ -1,8 +1,8 @@
 Summary:	Client for the Trivial File Transfer Protocol (TFTP)
-Summary(de.UTF-8):   Client für das 'trivial file transfer protocol (tftp)'
-Summary(fr.UTF-8):   Client pour le « trivial file transfer protocol » (tftp)
-Summary(pl.UTF-8):   Klient TFTP (Trivial File Transfer Protocol)
-Summary(tr.UTF-8):   İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
+Summary(de.UTF-8):	Client für das 'trivial file transfer protocol (tftp)'
+Summary(fr.UTF-8):	Client pour le « trivial file transfer protocol » (tftp)
+Summary(pl.UTF-8):	Klient TFTP (Trivial File Transfer Protocol)
+Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
 Version:	0.7
 Release:	10
@@ -50,10 +50,10 @@ olduğundan zorunlu kalmadıkça çalıştırılmamalıdır.
 
 %package -n atftpd-common
 Summary:	Daemon for the trivial file transfer protocol (tftp)
-Summary(de.UTF-8):   Dämon für das 'trivial file transfer protocol (tftp)'
-Summary(fr.UTF-8):   Démon pour le « trivial file transfer protocol » (tftp)
-Summary(pl.UTF-8):   Serwer tftp (trivial file transfer protocol)
-Summary(tr.UTF-8):   İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
+Summary(de.UTF-8):	Dämon für das 'trivial file transfer protocol (tftp)'
+Summary(fr.UTF-8):	Démon pour le « trivial file transfer protocol » (tftp)
+Summary(pl.UTF-8):	Serwer tftp (trivial file transfer protocol)
+Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Group:		Networking/Daemons
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
@@ -86,7 +86,7 @@ należy on do aplikacji o niskim poziomie bezpieczeństwa.
 
 %package -n atftpd-inetd
 Summary:	inetd configs for atftpd
-Summary(pl.UTF-8):   Pliki konfiguracyjne do użycia atftpd poprzez inetd
+Summary(pl.UTF-8):	Pliki konfiguracyjne do użycia atftpd poprzez inetd
 Group:		Daemons
 Requires:	atftpd-common = %{epoch}:%{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
@@ -106,7 +106,7 @@ Pliki konfiguracyjna atftpd do startowania demona poprzez inetd.
 
 %package -n atftpd-standalone
 Summary:	Standalone daemon configs for atftpd
-Summary(pl.UTF-8):   Pliki konfiguracyjne do startowania atftpd w trybie standalone
+Summary(pl.UTF-8):	Pliki konfiguracyjne do startowania atftpd w trybie standalone
 Group:		Daemons
 Requires:	atftpd-common = %{epoch}:%{version}-%{release}
 Requires:	rc-scripts
