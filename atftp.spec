@@ -54,7 +54,7 @@ Summary(de.UTF-8):	Dämon für das 'trivial file transfer protocol (tftp)'
 Summary(fr.UTF-8):	Démon pour le « trivial file transfer protocol » (tftp)
 Summary(pl.UTF-8):	Serwer tftp (trivial file transfer protocol)
 Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
-Group:		Networking/Daemons
+Group:		Networking/Daemons/FTP
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/useradd
@@ -87,7 +87,7 @@ należy on do aplikacji o niskim poziomie bezpieczeństwa.
 %package -n atftpd-inetd
 Summary:	inetd configs for atftpd
 Summary(pl.UTF-8):	Pliki konfiguracyjne do użycia atftpd poprzez inetd
-Group:		Daemons
+Group:		Networking/Daemons/FTP
 Requires:	atftpd-common = %{epoch}:%{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Provides:	tftpdaemon
@@ -107,7 +107,7 @@ Pliki konfiguracyjna atftpd do startowania demona poprzez inetd.
 %package -n atftpd-standalone
 Summary:	Standalone daemon configs for atftpd
 Summary(pl.UTF-8):	Pliki konfiguracyjne do startowania atftpd w trybie standalone
-Group:		Daemons
+Group:		Networking/Daemons/FTP
 Requires:	atftpd-common = %{epoch}:%{version}-%{release}
 Requires:	rc-scripts
 Provides:	tftpdaemon
@@ -181,8 +181,8 @@ fi
 
 %preun
 if [ "$1" = "0" ]; then
-        %service atftpd stop
-        /sbin/chkconfig --del atftpd
+	%service atftpd stop
+	/sbin/chkconfig --del atftpd
 fi
 
 %files
