@@ -5,7 +5,7 @@ Summary(pl.UTF-8):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
 Version:	0.7
-Release:	11
+Release:	12
 License:	GPL
 Group:		Applications/Networking
 Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
