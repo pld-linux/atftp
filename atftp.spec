@@ -4,22 +4,23 @@ Summary(fr.UTF-8):	Client pour le « trivial file transfer protocol » (tftp)
 Summary(pl.UTF-8):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
-Version:	0.7
-Release:	15
+Version:	0.7.1
+Release:	1
 License:	GPL
 Group:		Applications/Networking
-Source0:	ftp://ftp.mamalinux.com/pub/atftp/%{name}-%{version}.tar.gz
-# Source0-md5:	3b27365772d918050b2251d98a9c7c82
+Source0:	http://downloads.sourceforge.net/project/atftp/%{name}-%{version}.tar.gz
+# Source0-md5:	367bf401965fbed04585b1229c2191a8
 Source1:	%{name}d.inetd
 Source2:	%{name}d.init
 Source3:	%{name}d.sysconfig
-Patch0:		%{name}-debian.patch
-Patch1:		%{name}-tinfo.patch
-Patch2:		%{name}-clk.patch
+Patch0:		%{name}-tinfo.patch
+Patch1:		%{name}-clk.patch
+URL:		http://sourceforge.net/projects/atftp/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	libwrap-devel
+BuildRequires:	readline-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -129,16 +130,21 @@ standalone.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+
+sed -i -e 's#AM_CONFIG_HEADER#AC_CONFIG_HEADERS#g' configure.ac
+sed -i -e 's#CFLAGS="-g -Wall -D_REENTRANT"##g' configure.ac
 
 %build
-sed -i -e 's#argz.h##g' Makefile*
-rm -f missing argz.h
 %{__libtoolize}
 %{__aclocal}
 %{__automake}
 %{__autoconf}
-%configure
+
+%configure \
+	--enable-libreadline \
+	--enable-libwrap \
+	--enable-libpcre \
+	--enable-mtftp
 %{__make}
 
 %install
@@ -147,10 +153,8 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},/var/lib/tftp} \
 	$RPM_BUILD_ROOT{%{_mandir}/man{1,8},} \
 	$RPM_BUILD_ROOT{/etc/sysconfig/rc-inetd,/etc/rc.d/init.d}
 
-install atftpd $RPM_BUILD_ROOT%{_sbindir}
-install atftp $RPM_BUILD_ROOT%{_bindir}
-install *.8 $RPM_BUILD_ROOT%{_mandir}/man8/
-install *.1 $RPM_BUILD_ROOT%{_mandir}/man1/
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/tftpd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/atftpd
