@@ -5,7 +5,7 @@ Summary(pl.UTF-8):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
 Version:	0.7.1
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Networking
 Source0:	http://downloads.sourceforge.net/project/atftp/%{name}-%{version}.tar.gz
@@ -15,6 +15,7 @@ Source2:	%{name}d.init
 Source3:	%{name}d.sysconfig
 Patch0:		%{name}-tinfo.patch
 Patch1:		%{name}-clk.patch
+Patch2:		no-inline.patch
 URL:		http://sourceforge.net/projects/atftp/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -130,6 +131,7 @@ standalone.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 sed -i -e 's#AM_CONFIG_HEADER#AC_CONFIG_HEADERS#g' configure.ac
 sed -i -e 's#CFLAGS="-g -Wall -D_REENTRANT"##g' configure.ac
