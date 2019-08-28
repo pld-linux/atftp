@@ -4,12 +4,12 @@ Summary(fr.UTF-8):	Client pour le « trivial file transfer protocol » (tftp)
 Summary(pl.UTF-8):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
-Version:	0.7.1
-Release:	4
+Version:	0.7.2
+Release:	1
 License:	GPL
 Group:		Applications/Networking
 Source0:	http://downloads.sourceforge.net/project/atftp/%{name}-%{version}.tar.gz
-# Source0-md5:	367bf401965fbed04585b1229c2191a8
+# Source0-md5:	eb358eb1af10ae5dc51095cd10b6738b
 Source1:	%{name}d.inetd
 Source2:	%{name}d.init
 Source3:	%{name}d.sysconfig
