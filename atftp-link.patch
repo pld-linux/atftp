@@ -1,0 +1,20 @@
+--- atftp-0.8.0/configure.ac.orig	2023-12-25 17:03:51.624746674 +0100
++++ atftp-0.8.0/configure.ac	2023-12-25 17:31:38.212384661 +0100
+@@ -149,7 +149,7 @@ if test x$libwrap = xtrue; then
+    dnl test here. We automatically link against nsl since libwrap is not
+    dnl already linked with it on all systems.
+    orig_LIBS="$LIBS"
+-   LIBS="-lnsl -lwrap"
++   LIBS="-lwrap"
+    AC_MSG_CHECKING([for hosts_ctl in -lwrap])
+    AC_TRY_LINK([
+         #include <tcpd.h>
+@@ -158,7 +158,7 @@ if test x$libwrap = xtrue; then
+         ],
+ 	hosts_ctl("", STRING_UNKNOWN, STRING_UNKNOWN, STRING_UNKNOWN);
+         ,
+-        LIBWRAP="-lnsl -lwrap"
++        LIBWRAP="-lwrap"
+         LIBS="$orig_LIBS"
+         AC_MSG_RESULT(yes)
+         AC_DEFINE([HAVE_WRAP], 1, "Support for libwrap")

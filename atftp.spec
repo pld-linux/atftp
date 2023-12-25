@@ -4,23 +4,23 @@ Summary(fr.UTF-8):	Client pour le « trivial file transfer protocol » (tftp)
 Summary(pl.UTF-8):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
-Version:	0.7.2
-Release:	2
-License:	GPL
+Version:	0.8.0
+Release:	1
+License:	GPL v2+
 Group:		Applications/Networking
-Source0:	http://downloads.sourceforge.net/project/atftp/%{name}-%{version}.tar.gz
-# Source0-md5:	eb358eb1af10ae5dc51095cd10b6738b
+Source0:	https://downloads.sourceforge.net/project/atftp/%{name}-%{version}.tar.gz
+# Source0-md5:	852f4c0773ae8c429ec4f74413eabe1b
 Source1:	%{name}d.inetd
 Source2:	%{name}d.init
 Source3:	%{name}d.sysconfig
 Patch0:		%{name}-tinfo.patch
-Patch1:		%{name}-clk.patch
-Patch2:		no-inline.patch
-URL:		http://sourceforge.net/projects/atftp/
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	libtool
+Patch1:		%{name}-link.patch
+URL:		https://sourceforge.net/projects/atftp/
+BuildRequires:	autoconf >= 2.50
+BuildRequires:	automake >= 1:1.7
 BuildRequires:	libwrap-devel
+BuildRequires:	ncurses-devel
+BuildRequires:	pcre2-8-devel
 BuildRequires:	readline-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -93,7 +93,7 @@ Group:		Networking/Daemons/FTP
 Requires:	atftpd-common = %{epoch}:%{version}-%{release}
 Requires:	rc-inetd >= 0.8.1
 Provides:	tftpdaemon
-Obsoletes:	atftpd
+Obsoletes:	atftpd < 0.7-9
 Obsoletes:	inetutils-tftpd
 Obsoletes:	tftp-server
 Obsoletes:	tftpd
@@ -113,7 +113,7 @@ Group:		Networking/Daemons/FTP
 Requires:	atftpd-common = %{epoch}:%{version}-%{release}
 Requires:	rc-scripts
 Provides:	tftpdaemon
-Obsoletes:	atftpd
+Obsoletes:	atftpd < 0.7-9
 Obsoletes:	inetutils-tftpd
 Obsoletes:	tftp-server
 Obsoletes:	tftpd
@@ -131,21 +131,19 @@ standalone.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
-sed -i -e 's#AM_CONFIG_HEADER#AC_CONFIG_HEADERS#g' configure.ac
-sed -i -e 's#CFLAGS="-g -Wall -D_REENTRANT"##g' configure.ac
+#sed -i -e 's#AM_CONFIG_HEADER#AC_CONFIG_HEADERS#g' configure.ac
+#sed -i -e 's#CFLAGS="-g -Wall -D_REENTRANT"##g' configure.ac
 
 %build
-%{__libtoolize}
 %{__aclocal}
-%{__automake}
 %{__autoconf}
-
+%{__autoheader}
+%{__automake}
 %configure \
+	--enable-libpcre \
 	--enable-libreadline \
 	--enable-libwrap \
-	--enable-libpcre \
 	--enable-mtftp
 %{__make}
 
@@ -193,19 +191,22 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/*
+%doc BUGS Changelog FAQ README README.MCAST README.PCRE TODO docs/pxespec.txt
+%attr(755,root,root) %{_bindir}/atftp
+%{_mandir}/man1/atftp.1*
 
 %files -n atftpd-common
 %defattr(644,root,root,755)
-%doc README FAQ
-%attr(755,root,root) %{_sbindir}/*
+%doc BUGS Changelog FAQ README README.MCAST README.PCRE TODO docs/pxespec.txt
+%attr(755,root,root) %{_sbindir}/atftpd
 %attr(750,tftp,root) %dir /var/lib/tftp
-%{_mandir}/man8/*
+%{_mandir}/man8/atftpd.8*
 
 %files -n atftpd-inetd
 %defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/tftpd
+%attr(755,root,root) %{_sbindir}/in.tftpd
+%{_mandir}/man8/in.tftpd.8*
 
 %files -n atftpd-standalone
 %defattr(644,root,root,755)
