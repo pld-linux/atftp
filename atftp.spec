@@ -129,8 +129,8 @@ standalone.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 #sed -i -e 's#AM_CONFIG_HEADER#AC_CONFIG_HEADERS#g' configure.ac
 #sed -i -e 's#CFLAGS="-g -Wall -D_REENTRANT"##g' configure.ac
