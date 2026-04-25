@@ -4,12 +4,12 @@ Summary(fr.UTF-8):	Client pour le « trivial file transfer protocol » (tftp)
 Summary(pl.UTF-8):	Klient TFTP (Trivial File Transfer Protocol)
 Summary(tr.UTF-8):	İlkel dosya aktarım protokolu (TFTP) için sunucu ve istemci
 Name:		atftp
-Version:	0.8.0
+Version:	0.8.1
 Release:	1
 License:	GPL v2+
 Group:		Applications/Networking
 Source0:	https://downloads.sourceforge.net/project/atftp/%{name}-%{version}.tar.gz
-# Source0-md5:	852f4c0773ae8c429ec4f74413eabe1b
+# Source0-md5:	2a3006e15362c61bb8448bf132334e46
 Source1:	%{name}d.inetd
 Source2:	%{name}d.init
 Source3:	%{name}d.sysconfig
@@ -191,13 +191,13 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc BUGS Changelog FAQ README README.MCAST README.PCRE TODO docs/pxespec.txt
+%doc BUGS Changelog FAQ README.md TODO docs/pxespec.txt
 %attr(755,root,root) %{_bindir}/atftp
 %{_mandir}/man1/atftp.1*
 
 %files -n atftpd-common
 %defattr(644,root,root,755)
-%doc BUGS Changelog FAQ README README.MCAST README.PCRE TODO docs/pxespec.txt
+%doc BUGS Changelog FAQ README.md TODO docs/pxespec.txt
 %attr(755,root,root) %{_sbindir}/atftpd
 %attr(750,tftp,root) %dir /var/lib/tftp
 %{_mandir}/man8/atftpd.8*
@@ -205,7 +205,8 @@ fi
 %files -n atftpd-inetd
 %defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/tftpd
-%attr(755,root,root) %{_sbindir}/in.tftpd
+# symlink to atftpd
+%{_sbindir}/in.tftpd
 %{_mandir}/man8/in.tftpd.8*
 
 %files -n atftpd-standalone
